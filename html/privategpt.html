@@ -1,9 +1,148 @@
 <!doctype html>
 <html lang="pt-PT">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="PrivateGPT — manual de instalação e utilização de IA local para Windows 11."><title>PrivateGPT · Manual de IA local</title><link rel="stylesheet" href="assets/css/style.css"><script src="assets/js/main.js" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="PrivateGPT — manual de instalação e utilização de IA local para Windows 11."><title>PrivateGPT · Manual de IA local</title><link rel="stylesheet" href="assets/css/style.css"><script src="assets/js/main.js" defer></script><style>
+/* Estilos exclusivos do guia PrivateGPT. */
+.pgpt-steps { padding-left:1.5rem; }
+.pgpt-steps > li { padding-left:.25rem; margin:2rem 0; }
+.pgpt-steps > li::marker { color:var(--green); font-weight:750; }
+.pgpt-figure { margin:1.2rem 0 1.8rem; }
+.pgpt-figure a { display:block; border-radius:8px; }
+.pgpt-figure img { display:block; width:100%; max-width:100%; height:auto; border:1px solid var(--line); border-radius:8px; background:#293442; }
+.pgpt-figure-narrow { max-width:500px; }
+.pgpt-figure figcaption { font-size:.85rem; color:var(--muted); margin-top:.6rem; }
+</style></head>
 <body><a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
 <header class="site-header"><div class="header-inner"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">m.</span> Manual de IA local</a><nav class="site-nav" aria-label="Navegação principal"><a href="index.html">Início</a><a href="localgpt.html">LocalGPT</a><a href="openwebui.html">Open WebUI</a><a href="privategpt.html" aria-current="page">PrivateGPT</a><a href="ajuda.html">Ajuda</a></nav></div></header>
-<main id="conteudo" class="container" tabindex="-1"><div class="page-heading"><p class="breadcrumb"><a href="index.html">Início</a> / Guias / PrivateGPT</p><p class="eyebrow">Guia de utilização · Windows 11 · LLM local</p><h1>PrivateGPT</h1><p class="lead">Faça perguntas sobre documentos com um perfil de processamento exclusivamente local.</p><span class="tag">Configuração por concluir</span></div><div class="guide-layout"><nav class="toc" aria-label="Índice do guia"><h2>Neste guia</h2><ol><li><a href="#sobre">O que é</a></li><li><a href="#requisitos">Requisitos específicos</a></li><li><a href="#instalacao">Instalação</a></li><li><a href="#modelo">Configuração do modelo</a></li><li><a href="#arranque">Arranque e acesso</a></li><li><a href="#documentos">Carregamento de documentos</a></li><li><a href="#pergunta">Primeira pergunta</a></li><li><a href="#parar">Parar e voltar a iniciar</a></li><li><a href="#problemas">Problemas frequentes</a></li></ol></nav><div><div class="notice"><strong>Leia antes de começar</strong><p>Este guia distingue o que está nos materiais do projeto do que falta testar. Não avance sobre etapas pendentes. O arranque do manual não instala PrivateGPT.</p></div><section class="guide-section" id="sobre" aria-labelledby="titulo-sobre"><span class="step">PASSO 01</span><h2 id="titulo-sobre">O que é</h2><p>O PrivateGPT permite carregar documentos e consultar o seu conteúdo com um modelo de linguagem. Este guia abrange apenas geração de respostas e embeddings executados localmente.</p><p>O exemplo identifica <a href="https://github.com/zylon-ai/private-gpt">zylon-ai/private-gpt</a> e a versão <code>v0.6.2</code>. Falta confirmar a imagem e o perfil final usados nessa versão.</p></section><section class="guide-section" id="requisitos" aria-labelledby="titulo-requisitos"><span class="step">PASSO 02</span><h2 id="titulo-requisitos">Requisitos específicos</h2><ul><li>Windows 11, Git, WSL 2 e Docker Desktop em funcionamento.</li><li>Código/imagem da versão confirmada e configuração exclusivamente local.</li><li>Modelos locais descarregados e armazenamento persistente dos documentos e índices.</li></ul><div class="notice pending"><strong>Por completar com a configuração testada</strong><p>Confirmar hardware, espaço e perfil de execução. A porta 8001 da receita colide com o serviço de documentos do LocalGPT; definir uma instalação testada sem conflito ou documentar a utilização alternada.</p></div></section><section class="guide-section" id="instalacao" aria-labelledby="titulo-instalacao"><span class="step">PASSO 03</span><h2 id="titulo-instalacao">Instalação</h2><ol><li>Conclua a preparação do Windows no README.</li><li>Obtenha a versão e os ficheiros finais aprovados pelo responsável.</li><li>Aguarde pela correção e validação do perfil local antes de construir ou iniciar o contentor.</li></ol><p>Os materiais incluem uma receita de construção e arranque, mas não comprovam a aplicação coerente do ficheiro de configuração e dos perfis.</p><div class="notice pending"><strong>Por completar com a configuração testada</strong><p>Fornecer a sequência testada de obtenção do código, construção da imagem e montagem do ficheiro de configuração e dos dados. Não são publicados comandos de instalação enquanto esta divergência não for resolvida.</p></div></section><section class="guide-section" id="modelo" aria-labelledby="titulo-modelo"><span class="step">PASSO 04</span><h2 id="titulo-modelo">Configuração do modelo</h2><div class="notice"><strong>As referências não concordam entre si</strong><p>A receita pretende usar Ollama, com <code>llama3.2:3b</code> e <code>nomic-embed-text</code>. O ficheiro base encontrado declara <code>llm.mode: llamacpp</code> e <code>embedding.mode: huggingface</code>; a sua secção Ollama refere <code>llama3.1</code>. Os perfis podem alterar valores, mas o resultado efetivo não foi confirmado.</p></div><p>O ficheiro também contém <code>context_window: 8192</code> e <code>similarity_top_k: 12</code>. São valores encontrados, não recomendações universais.</p><div class="notice pending"><strong>Por completar com a configuração testada</strong><p>Entregar um perfil final coerente com os modelos locais escolhidos, os dois endereços locais de inferência/embeddings, os ficheiros descarregados e os diretórios persistentes. Confirmar quais as opções que a versão v0.6.2 realmente lê. O guia final deve incluir apenas as secções necessárias à execução local.</p></div></section><section class="guide-section" id="arranque" aria-labelledby="titulo-arranque"><span class="step">PASSO 05</span><h2 id="titulo-arranque">Arranque e acesso</h2><p>A referência usa o contentor <code>is-tp1-privategpt</code> e a interface <a href="http://localhost:8001">http://localhost:8001</a>. Este é o endereço da receita, sujeito à resolução do conflito com LocalGPT.</p><div class="notice pending"><strong>Por completar com a configuração testada</strong><p>Adicionar o comando de arranque com o perfil final, confirmar a interface ativada, a porta e o acesso restrito ao computador. Não use a existência de uma página nessa porta como prova de que é o PrivateGPT: pode ser outro serviço.</p></div></section><section class="guide-section" id="documentos" aria-labelledby="titulo-documentos"><span class="step">PASSO 06</span><h2 id="titulo-documentos">Carregamento de documentos</h2><p>O exemplo regista a ingestão através do caminho <code>/v1/ingest/file</code>, mas não fornece um percurso completo para um utilizador sem conhecimentos técnicos.</p><ol><li>Prepare um documento pequeno de teste, com texto selecionável e conteúdo conhecido.</li><li>Quando o procedimento estiver concluído, carregue o documento pela interface confirmada.</li><li>Aguarde o processamento e selecione o documento para consulta.</li></ol><div class="notice pending"><strong>Por completar com a configuração testada</strong><p>Confirmar os controlos da interface nesta versão, formatos suportados e indicação de processamento concluído. Se for indispensável usar a interface de programação, fornecer uma instrução PowerShell testada com o caminho real do documento e o resultado esperado.</p></div></section><section class="guide-section" id="pergunta" aria-labelledby="titulo-pergunta"><span class="step">PASSO 07</span><h2 id="titulo-pergunta">Primeira pergunta</h2><p>Com o documento selecionado e o modo de consulta a documentos ativo, escreva:</p><blockquote>Segundo o documento selecionado, quais são as principais condições descritas? Indica os excertos de suporte e assinala a informação que não encontrares.</blockquote><p>Compare cada afirmação com o ficheiro original. Uma resposta sem apoio no documento deve ser revista.</p><div class="notice pending"><strong>Por completar com a configuração testada</strong><p>Confirmar o modo de consulta, a seleção do documento e uma resposta conferida, com o modelo e embeddings locais.</p></div></section><section class="guide-section" id="parar" aria-labelledby="titulo-parar"><span class="step">PASSO 08</span><h2 id="titulo-parar">Parar e voltar a iniciar</h2><p><strong>Somente para um contentor existente com o nome do exemplo.</strong> Estes comandos não resolvem a configuração pendente.</p><p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta. <strong>Administrador:</strong> não.</p><div class="command" data-command><pre><code>docker stop is-tp1-privategpt</code></pre></div><p class="expected"><strong>Resultado esperado:</strong> o contentor indicado para; o terminal apresenta o seu nome.</p><p>Noutro dia, abra Docker Desktop e o serviço local de modelos definido na configuração final. Aguarde que fiquem prontos.</p><p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta. <strong>Administrador:</strong> não.</p><div class="command" data-command><pre><code>docker start is-tp1-privategpt</code></pre></div><p class="expected"><strong>Resultado esperado:</strong> o mesmo contentor inicia novamente. Abra o endereço confirmado para essa instalação.</p><p>Não remova o contentor, os índices nem os volumes. Parar este contentor não para um Ollama instalado separadamente.</p><div class="notice pending"><strong>Por completar com a configuração testada</strong><p>Confirmar persistência das configurações e dos documentos após reinício e adaptar a sequência ao método de instalação final.</p></div></section><section class="guide-section" id="problemas" aria-labelledby="titulo-problemas"><span class="step">PASSO 09</span><h2 id="titulo-problemas">Problemas frequentes</h2><details open><summary>A porta 8001 está ocupada</summary><p>O LocalGPT encontrado também publica esta porta. Use a sequência de paragem do respetivo guia ou aguarde uma configuração aprovada com portas diferentes.</p></details><details><summary>O modelo não corresponde ao esperado</summary><p>Confirme o perfil realmente carregado e o ficheiro montado. Não altere apenas um nome de modelo: a receita e o ficheiro base ainda têm de ser reconciliados.</p></details><details><summary>O documento não aparece na resposta</summary><p>Confirme o fim da ingestão e a seleção do documento. Peça apoio se os modelos de embeddings ou os índices tiverem sido alterados.</p></details><p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta, apenas se existir o contentor com este nome. <strong>Administrador:</strong> não.</p><div class="command" data-command><pre><code>docker logs --tail 50 is-tp1-privategpt</code></pre></div><p class="expected"><strong>Resultado esperado:</strong> mensagens recentes para identificar o perfil e o erro; retire conteúdo privado antes de partilhar.</p></section><p class="source-note">Base consultada: <code>Exemplo/TP1_IS_Entrega/README.md</code> e <code>stacks/privategpt_settings-tp1.yaml</code>. Referência geral: <a href="https://docs.privategpt.dev/introduction">documentação PrivateGPT</a>. Consulte a <a href="ajuda.html#fontes">origem dos procedimentos e os limites da validação</a>.</p><a href="index.html">← Voltar aos guias</a></div></div></main>
+<main id="conteudo" class="container" tabindex="-1">
+<div class="page-heading"><p class="breadcrumb"><a href="index.html">Início</a> / Guias / PrivateGPT</p>
+<p class="eyebrow">Guia de utilização · Windows 11 · LLM local</p><h1>PrivateGPT</h1>
+<p class="lead">Prepare os modelos, carregue os ficheiros e converse com os seus documentos.</p></div>
+<div class="guide-layout"><nav class="toc" aria-label="Índice do guia"><h2>Neste guia</h2><ol>
+<li><a href="#sobre">O que é</a></li>
+<li><a href="#requisitos">Preparar o computador</a></li>
+<li><a href="#modelo">Descarregar e verificar os embeddings</a></li>
+<li><a href="#instalacao">Iniciar o PrivateGPT</a></li>
+<li><a href="#arranque">Abrir e concluir a configuração</a></li>
+<li><a href="#documentos">Criar a coleção e carregar ficheiros</a></li>
+<li><a href="#pergunta">Ativar os documentos e conversar</a></li>
+<li><a href="#parar">Parar e voltar a iniciar</a></li>
+<li><a href="#problemas">Problemas frequentes</a></li>
+</ol></nav><div>
+<section class="guide-section" id="sobre" aria-labelledby="titulo-sobre">
+<span class="step">PASSO 01</span><h2 id="titulo-sobre">O que é</h2>
+<p>O PrivateGPT permite carregar documentos e conversar sobre o seu conteúdo. Neste guia, o modelo de conversa e os embeddings funcionam no computador através do Ollama.</p>
+</section>
+<section class="guide-section" id="requisitos" aria-labelledby="titulo-requisitos">
+<span class="step">PASSO 02</span><h2 id="titulo-requisitos">Preparar o computador</h2>
+<p>Precisa de <strong>Docker Desktop e Ollama abertos</strong>. Se já os preparou nos guias anteriores, avance para o <a href="#modelo">download dos embeddings</a>.</p>
+<p>Se ainda não tem Docker Desktop, siga o README. Para instalar Ollama:</p>
+<p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta. <strong>Administrador:</strong> não; confirme a elevação se o instalador pedir.</p>
+<div class="command" data-command><pre><code>winget install --id Ollama.Ollama -e --source winget</code></pre></div>
+<p class="expected"><strong>Resultado:</strong> Ollama instalado. Depois feche e reabra o PowerShell e abra Ollama no menu Iniciar.</p>
+<p>Precisa também de um modelo de conversa. Se ainda não descarregou o Qwen usado nos outros guias, execute:</p>
+<p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta. <strong>Administrador:</strong> não.</p>
+<div class="command" data-command><pre><code>ollama pull qwen3.5:4b</code></pre></div>
+<p class="expected"><strong>Resultado:</strong> modelo de conversa descarregado. Se já o tem, não precisa de repetir.</p>
+
+</section>
+<section class="guide-section" id="modelo" aria-labelledby="titulo-modelo">
+<span class="step">PASSO 03</span><h2 id="titulo-modelo">Descarregar e verificar os embeddings</h2>
+<p>Descarregue o modelo que prepara os documentos para pesquisa:</p>
+<p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta. <strong>Administrador:</strong> não.</p>
+<div class="command" data-command><pre><code>ollama pull mxbai-embed-large</code></pre></div>
+<p class="expected"><strong>Resultado:</strong> modelo de embeddings descarregado. Aguarde pela indicação de sucesso.</p>
+<p>Confirme os modelos instalados:</p>
+<p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta. <strong>Administrador:</strong> não.</p>
+<div class="command" data-command><pre><code>ollama list</code></pre></div>
+<p class="expected"><strong>Resultado:</strong> a lista deve incluir mxbai-embed-large (pode aparecer com :latest) e o modelo de conversa, por exemplo qwen3.5:4b.</p>
+<p><code>mxbai-embed-large</code> serve para pesquisar os documentos; o Qwen gera as respostas.</p>
+</section>
+<section class="guide-section" id="instalacao" aria-labelledby="titulo-instalacao">
+<span class="step">PASSO 04</span><h2 id="titulo-instalacao">Iniciar o PrivateGPT</h2>
+<p>No Explorador, abra a pasta onde quer guardar os dados do PrivateGPT. Botão direito numa zona vazia → <strong>Abrir no Terminal</strong> → PowerShell.</p>
+<p>Com Docker Desktop e Ollama abertos, copie o bloco completo:</p>
+<p class="command-meta"><strong>Onde:</strong> PowerShell normal, na pasta escolhida para os dados do PrivateGPT. <strong>Administrador:</strong> não.</p>
+<div class="command" data-command><pre><code>docker run --name privategpt `
+  -p 8080:8080 `
+  -e OPENAI_API_BASE=http://host.docker.internal:11434/v1 `
+  -e OPENAI_EMBEDDING_API_BASE=http://host.docker.internal:11434/v1 `
+  -v "${PWD}/local_data:/home/worker/app/local_data" `
+  zylonai/private-gpt:latest</code></pre></div>
+<p class="expected"><strong>Resultado:</strong> imagem descarregada e PrivateGPT iniciado. A pasta local_data, dentro da pasta escolhida, guarda os dados.</p>
+<p><strong>Aguarde pelo arranque e deixe esta janela aberta.</strong> Este comando mostra as mensagens do serviço e não devolve imediatamente a linha para escrever.</p>
+<p>Os dois endereços apontam para Ollama no seu computador; os nomes das variáveis <code>OPENAI_…</code> referem-se ao formato de ligação compatível.</p>
+</section>
+<section class="guide-section" id="arranque" aria-labelledby="titulo-arranque">
+<span class="step">PASSO 05</span><h2 id="titulo-arranque">Abrir e concluir a configuração</h2>
+<p>Depois do arranque, abra <a class="button" href="http://localhost:8080/ui" target="_blank" rel="noopener">Abrir PrivateGPT ↗</a></p>
+<p class="source-note">Endereço do chat: <strong>http://localhost:8080/ui</strong>.</p>
+<ol class="pgpt-steps">
+<li><h3>Manter os valores predefinidos</h3><p>No ecrã inicial, mantenha <strong>PrivateGPT Base URL</strong> em <code>http://localhost:8080</code>, a autenticação predefinida e <strong>Collection ID</strong> em <code>pgpt_collection</code>, como na imagem. Clique em <strong>Save and check</strong>.</p>
+<figure class="pgpt-figure pgpt-figure-narrow">
+<a href="assets/img/14-lodindefault.png" target="_blank" rel="noopener" aria-label="Ampliar imagem 14 (novo separador)"><img src="assets/img/14-lodindefault.png" alt="Configuração inicial da ligação e da coleção." loading="lazy"></a>
+<figcaption>Imagem 14 — Configuração inicial da ligação e da coleção. Clique na imagem para ampliar.</figcaption>
+</figure></li>
+<li><h3>Terminar a configuração</h3><p>Quando aparecer <strong>All good</strong>, mantenha a personalização predefinida e clique em <strong>Finish setup</strong>.</p>
+<figure class="pgpt-figure">
+<a href="assets/img/15-default2.png" target="_blank" rel="noopener" aria-label="Ampliar imagem 15 (novo separador)"><img src="assets/img/15-default2.png" alt="Ligação confirmada e botão Finish setup." loading="lazy"></a>
+<figcaption>Imagem 15 — Ligação confirmada e botão Finish setup. Clique na imagem para ampliar.</figcaption>
+</figure></li>
+</ol>
+</section>
+<section class="guide-section" id="documentos" aria-labelledby="titulo-documentos">
+<span class="step">PASSO 06</span><h2 id="titulo-documentos">Criar a coleção e carregar ficheiros</h2>
+<ol class="pgpt-steps">
+<li><h3>Dar um nome à coleção</h3><p>Abra as definições e, em <strong>Collection ID</strong>, indique o nome da coleção que vai usar para os seus documentos. Guarde a alteração antes de carregar ficheiros e mantenha essa coleção selecionada para os consultar.</p></li>
+<li><h3>Carregar os documentos</h3><p>Na barra lateral, clique em <strong>Context</strong>. Escolha <strong>Documents</strong>, clique em <strong>Upload</strong> e selecione os ficheiros que pretende consultar.</p>
+<figure class="pgpt-figure">
+<a href="assets/img/16-uploaddoc.png" target="_blank" rel="noopener" aria-label="Ampliar imagem 16 (novo separador)"><img src="assets/img/16-uploaddoc.png" alt="Context → Documents e botão Upload." loading="lazy"></a>
+<figcaption>Imagem 16 — Context → Documents e botão Upload. Clique na imagem para ampliar.</figcaption>
+</figure></li>
+<li><h3>Aguardar pelo processamento</h3><p>Aguarde até os documentos aparecerem na lista, como no exemplo. Se necessário, use <strong>Refresh</strong> para atualizar a lista.</p>
+<figure class="pgpt-figure pgpt-figure-narrow">
+<a href="assets/img/17-exemploupload.png" target="_blank" rel="noopener" aria-label="Ampliar imagem 17 (novo separador)"><img src="assets/img/17-exemploupload.png" alt="Exemplo de documentos carregados na coleção." loading="lazy"></a>
+<figcaption>Imagem 17 — Exemplo de documentos carregados na coleção. Clique na imagem para ampliar.</figcaption>
+</figure></li>
+</ol>
+</section>
+<section class="guide-section" id="pergunta" aria-labelledby="titulo-pergunta">
+<span class="step">PASSO 07</span><h2 id="titulo-pergunta">Ativar os documentos e conversar</h2>
+<p>Abra <strong>New Chat</strong> e selecione o modelo de conversa local, por exemplo <code>qwen3.5:4b</code>. Clique em <strong>Tools</strong> e ative <strong>Documents</strong>, como na imagem. Para este percurso, deixe <strong>Web</strong> desativado.</p>
+<figure class="pgpt-figure">
+<a href="assets/img/18-documentsativo.png" target="_blank" rel="noopener" aria-label="Ampliar imagem 18 (novo separador)"><img src="assets/img/18-documentsativo.png" alt="Opção Documents ativa no chat." loading="lazy"></a>
+<figcaption>Imagem 18 — Opção Documents ativa no chat. Clique na imagem para ampliar.</figcaption>
+</figure>
+<p>O chat está pronto para consultar a coleção. Experimente:</p>
+<blockquote>Resume os pontos principais dos documentos e indica os excertos que sustentam a resposta.</blockquote>
+<p>Aguarde e confira a resposta nos documentos originais.</p>
+</section>
+<section class="guide-section" id="parar" aria-labelledby="titulo-parar">
+<span class="step">PASSO 08</span><h2 id="titulo-parar">Parar e voltar a iniciar</h2>
+<p>Para parar, abra outra janela PowerShell:</p>
+<p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta. <strong>Administrador:</strong> não.</p>
+<div class="command" data-command><pre><code>docker stop privategpt</code></pre></div>
+<p class="expected"><strong>Resultado:</strong> contentor parado, sem apagar os dados. Pode depois fechar a janela do arranque inicial.</p>
+<p>Noutro dia, abra Docker Desktop e Ollama e execute:</p>
+<p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta. <strong>Administrador:</strong> não.</p>
+<div class="command" data-command><pre><code>docker start privategpt</code></pre></div>
+<p class="expected"><strong>Resultado:</strong> o mesmo contentor volta a iniciar. Aguarde e abra http://localhost:8080/ui.</p>
+<p>Use a mesma coleção para voltar aos documentos. Não repita o comando de instalação nem apague a pasta <code>local_data</code>.</p>
+</section>
+<section class="guide-section" id="problemas" aria-labelledby="titulo-problemas">
+<span class="step">PASSO 09</span><h2 id="titulo-problemas">Problemas frequentes</h2>
+<details><summary>A página ainda não abre</summary><p>Confirme que Docker Desktop e Ollama estão abertos, aguarde pelo arranque e use o endereço completo <code>http://localhost:8080/ui</code>.</p></details>
+<details><summary>O nome «privategpt» já está em uso</summary><p>O contentor já existe. Use o comando de arranque do <a href="#parar">passo anterior</a>.</p></details>
+<details><summary>A porta 8080 está ocupada</summary><p>Feche a aplicação que estiver a usar essa porta, se a reconhecer. O manual usa a porta 18080.</p></details>
+<details><summary>O modelo não aparece ou há erro de embeddings</summary><p>Confirme que Ollama está aberto e verifique os modelos com o comando do <a href="#modelo">passo 3</a>. São necessários tanto o modelo de embeddings como o modelo de conversa.</p></details>
+<details><summary>O chat não usa os documentos</summary><p>Confirme a coleção selecionada, o fim do processamento e a opção Documents ativa.</p></details>
+<details><summary>Consultar as mensagens de erro</summary>
+<p class="command-meta"><strong>Onde:</strong> PowerShell normal, em qualquer pasta. <strong>Administrador:</strong> não.</p>
+<div class="command" data-command><pre><code>docker logs --tail 50 privategpt</code></pre></div>
+<p class="expected"><strong>Resultado:</strong> últimas mensagens do contentor para identificar o erro.</p>
+</details>
+</section>
+<p class="source-note">Percurso ilustrado com as imagens fornecidas para este projeto. Referências: <a href="https://github.com/zylon-ai/private-gpt#quickstart">PrivateGPT — arranque e interface</a>, <a href="https://hub.docker.com/r/zylonai/private-gpt">imagem Docker</a>, <a href="https://ollama.com/library/mxbai-embed-large">mxbai-embed-large</a> e <a href="https://docs.ollama.com/api/openai-compatibility#local-server-usage">ligação ao servidor local Ollama</a>.</p>
+<a href="index.html">← Voltar aos guias</a>
+</div></div></main>
 <footer class="site-footer"><div class="container footer-inner"><span>Manual de IA local · Windows 11</span><span>Documentação revista em 25 setembro 2026 · <a href="ajuda.html#fontes">Fontes e limites</a></span></div></footer>
 </body></html>
-
