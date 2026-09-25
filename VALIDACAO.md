@@ -16,20 +16,22 @@ Data: **25/09/2026**. Este registo refere-se ao site de documentação. Não cer
 | Teclado | A primeira tabulação alcançou «Saltar para o conteúdo». Botão de cópia ativado por Enter, com foco mantido e contorno visível. Não foi realizada uma auditoria completa com leitor de ecrã. |
 | Sem JavaScript | Navegação e comandos continuaram visíveis na página Ajuda, sem botões de cópia inativos. |
 | Erros JavaScript | Nenhuma exceção de execução durante o ensaio final. |
-| Docker Compose | Configuração aceite pelo Docker Compose v5.5.1. A saída normalizada confirmou um único serviço `manual`, imagem `nginx:1.30.5-alpine`, porta `127.0.0.1:8080:80` e montagem de HTML apenas para leitura. |
+| Docker Compose | Configuração aceite pelo Docker Compose v5.5.1. A saída normalizada confirmou um único serviço `manual`, imagem `nginx:1.30.5-alpine`, porta publicada apenas em `127.0.0.1` e montagem de HTML apenas para leitura. |
 | HTTP do conteúdo | As cinco páginas responderam com HTTP 200 através de um servidor estático temporário de teste em `127.0.0.1:18080`. Este teste verifica o conteúdo; não valida o Nginx. |
 
 O servidor temporário e o navegador foram encerrados no fim. As ferramentas de teste não são necessárias para utilizar o manual; não há dependências de Node.js, Python ou ferramentas de build no projeto entregue.
 
 ## Verificação impedida pelo ambiente
 
+**Atualização da porta do manual:** a configuração passou para `127.0.0.1:18080:80`. A alteração foi aceite por `docker compose config --quiet` e confirmada na saída normalizada do Compose. README e referências do site foram atualizados. Não foi repetido o teste de arranque/HTTP do Nginx nesta alteração; o ensaio HTTP temporário descrito acima é independente.
+
 Foi tentado o arranque pelo Compose do manual. O cliente Docker estava instalado, mas a ligação ao motor Linux falhou porque o pipe `dockerDesktopLinuxEngine` não estava disponível. Por isso:
 
 - Não foi possível confirmar o download da imagem nem o arranque do Nginx.
-- Não foi obtida uma resposta HTTP do serviço Compose em `http://localhost:8080`.
+- Não foi obtida uma resposta HTTP do serviço Compose em `http://localhost:18080`.
 - Os testes HTTP e de navegador acima usaram o servidor temporário, não o Docker.
 
-Para concluir esta verificação, abra Docker Desktop, aguarde pelo motor e siga as secções 6, 8 e 9 do README. Confirme o serviço em execução e a página inicial em `http://localhost:8080`; depois siga a paragem e o novo arranque da secção 10.
+Para concluir esta verificação, abra Docker Desktop, aguarde pelo motor e siga as secções 6, 8 e 9 do README. Confirme o serviço em execução e a página inicial em `http://localhost:18080`; depois siga a paragem e o novo arranque da secção 10.
 
 ## Guias que precisam de informação adicional
 

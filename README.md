@@ -1,6 +1,6 @@
 # Manual de IA local · Windows 11
 
-Guias de **LocalGPT, Open WebUI e PrivateGPT**, com modelos locais. Os passos abaixo abrem o site do manual em **http://localhost:8080**; cada aplicação é instalada depois, pelo respetivo guia.
+Guias de **LocalGPT, Open WebUI e PrivateGPT**, com modelos locais. Os passos abaixo abrem o site do manual em **http://localhost:18080**; cada aplicação é instalada depois, pelo respetivo guia.
 
 > As etapas ainda não validadas estão assinaladas nos guias como **«Por completar com a configuração testada»**.
 
@@ -109,11 +109,11 @@ docker compose up -d
 docker compose ps
 ```
 
-Deve aparecer o serviço `manual` em estado **Up**, com a porta `127.0.0.1:8080`. Pode fechar o terminal.
+Deve aparecer o serviço `manual` em estado **Up**, com a porta `127.0.0.1:18080`. Pode fechar o terminal.
 
 ## 9. Abrir o manual
 
-Abra **http://localhost:8080** no navegador e escolha **Ver guia** na solução pretendida.
+Abra **http://localhost:18080** no navegador e escolha **Ver guia** na solução pretendida.
 
 O endereço funciona apenas neste computador. O botão **Copiar** copia o comando; para o executar, cole-o no PowerShell indicado e prima Enter.
 
@@ -133,20 +133,20 @@ Noutro dia, abra **Docker Desktop**, aguarde pelo motor e abra o PowerShell norm
 docker compose up -d
 ```
 
-**Resultado:** site novamente disponível em **http://localhost:8080**.
+**Resultado:** site novamente disponível em **http://localhost:18080**.
 
 ## 11. Se algo falhar
 
-| Problema | Solução |
-| --- | --- |
-| `winget` não reconhecido | Instale ou atualize **Instalador de Aplicações / App Installer** na Microsoft Store e reabra o PowerShell. |
-| `git` ou `docker` não reconhecido | Reabra o PowerShell depois da instalação. |
-| Erro de ligação ao Docker | Abra Docker Desktop e aguarde pelo motor. |
-| Erro de WSL ou virtualização | Reveja os passos 1 e 4; consulte a [ajuda oficial do WSL](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting#installation-issues) se persistir. |
-| `no configuration file provided` | Abra o terminal na pasta que contém `compose.yaml`. |
-| Porta 8080 ocupada | Feche normalmente a aplicação que usa essa porta, se a reconhecer; caso contrário, peça apoio. |
-| Falha no download | Verifique internet, proxy/VPN e repita o arranque. |
-| Página não abre ou mostra erro | Confirme o endereço HTTP, o Docker ativo e a presença de `html/index.html` no projeto. |
+| Problema                          | Solução                                                                                                                                                    |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `winget` não reconhecido          | Instale ou atualize **Instalador de Aplicações / App Installer** na Microsoft Store e reabra o PowerShell.                                                 |
+| `git` ou `docker` não reconhecido | Reabra o PowerShell depois da instalação.                                                                                                                  |
+| Erro de ligação ao Docker         | Abra Docker Desktop e aguarde pelo motor.                                                                                                                  |
+| Erro de WSL ou virtualização      | Reveja os passos 1 e 4; consulte a [ajuda oficial do WSL](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting#installation-issues) se persistir. |
+| `no configuration file provided`  | Abra o terminal na pasta que contém `compose.yaml`.                                                                                                        |
+| Porta 18080 ocupada                | Feche normalmente a aplicação que usa essa porta, se a reconhecer; caso contrário, peça apoio.                                                             |
+| Falha no download                 | Verifique internet, proxy/VPN e repita o arranque.                                                                                                         |
+| Página não abre ou mostra erro    | Confirme o endereço HTTP, o Docker ativo e a presença de `html/index.html` no projeto.                                                                     |
 
 Para consultar o erro, no **PowerShell normal, na pasta `Manual_IA`**:
 
@@ -159,5 +159,3 @@ docker compose logs --tail 50 manual
 ---
 
 **Fontes consultadas em 25/09/2026:** [Git](https://git-scm.com/install/windows), [WinGet](https://learn.microsoft.com/en-us/windows/package-manager/winget/), [pacote Docker no catálogo WinGet](https://github.com/microsoft/winget-pkgs/tree/master/manifests/d/Docker/DockerDesktop), [WSL](https://learn.microsoft.com/en-us/windows/wsl/install), [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) e [backend WSL 2](https://docs.docker.com/desktop/features/wsl/).
-
-Testes realizados e configurações ainda em falta: [VALIDACAO.md](VALIDACAO.md).
