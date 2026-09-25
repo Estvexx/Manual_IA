@@ -1,0 +1,14 @@
+name: manual-llm-local
+
+services:
+  manual:
+    image: nginx:1.30.5-alpine
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - type: bind
+        source: ./html
+        target: /usr/share/nginx/html
+        read_only: true
+        bind:
+          create_host_path: false
